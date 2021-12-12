@@ -1,0 +1,38 @@
+$blue: #0095da;
+$grey-e0: #e0e0e0;
+$disabled-grey-text: #9f9f9f;
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.timer {
+  color: $disabled-grey-text;
+}
+
+.otp-input {
+  display: flex;
+  justify-content: space-evenly;
+  &__box {
+    height: 40px;
+    width: 30px;
+  }
+  input[type="text"] {
+    border: 1px solid $disabled-grey-text;
+    text-align: center;
+    font-size: 26px;
+    color: transparent;
+    text-shadow: 0 0 0 gray;
+  }
+  input[type="text"].filled-box {
+    background-color: $grey-e0;
+  }
+}

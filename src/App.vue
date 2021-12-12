@@ -13,5 +13,5 @@ export default {
 </script>
 
 <style lang="scss">
-// TODO main.scss needed ?
+  @import './assets/scss/main.scss';
 </style>
