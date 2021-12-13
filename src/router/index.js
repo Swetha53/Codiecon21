@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '../pages/Home.vue';
+import Verification from '../pages/Verification.vue';
 
 Vue.use(Router);
 
@@ -14,8 +15,8 @@ const router = new Router({
     },
     {
       path: '/otp-verification',
-      component: Home,
-      name: 'Home',
+      component: Verification,
+      name: 'Verification',
     },
   ],
 });

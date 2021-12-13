@@ -42,7 +42,7 @@ export default {
   destroyed() {
     const inputs = document.getElementsByClassName('otp-input__box');
     for (let i = 0; i < inputs.length; i += 1) {
-      inputs[i].removeEventListener('keydown');
+      inputs[i].removeEventListener('keydown', (event) => this.checkButtonClicked(event, i));
     }
   },
 };

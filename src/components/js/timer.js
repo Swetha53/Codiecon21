@@ -22,6 +22,7 @@ export default {
         this.count.minute = minute < 10 ? `0${minute}` : `${minute}`;
         this.count.second = second < 10 ? `0${second}` : `${second}`;
         if (this.count.time <= 0) {
+          this.$emit('resendOtpShow');
           clearInterval(this.isTimer);
         }
       }, 1000);
