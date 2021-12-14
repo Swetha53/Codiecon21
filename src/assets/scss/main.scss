@@ -140,3 +140,40 @@ input[type="tel"] {
   border: 1px solid red;
   border-radius: 4px;
 }
+
+.progress-bar {
+  width: fit-content;
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+  margin: 20px auto;
+  &__steps {
+    height: 12vw;
+    width: 12vw;
+    max-height: 40px;
+    max-width: 40px;
+    border-radius: 50%;
+    background-color: #E4E3E3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.38);
+  }
+  &__line {
+    width: 30vw;
+    height: 2px;
+    background-color: #E4E3E3;
+    border: unset;
+  }
+  .selected {
+    .progress-bar__steps, .progress-bar__line {
+      background-color: white;
+      color: black;
+    }
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}

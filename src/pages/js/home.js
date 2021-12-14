@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex';
 import Toaster from '@/components/Toaster.vue';
+import ProgressBar from '@/components/ProgressBar.vue';
 
 export default {
   name: 'Home',
@@ -12,12 +13,14 @@ export default {
   },
   components: {
     Toaster,
+    ProgressBar,
   },
   computed: {
     ...mapGetters(['getOrderDetails', 'getApiFailure']),
   },
   mounted() {
     // TODO at mount mobile should be prefilled
+    this.$store.commit('setPage', 'home');
     this.mobile = '9876543210';
   },
   methods: {
@@ -36,7 +39,7 @@ export default {
       setTimeout(() => {
         console.log(request);
         this.successSendDetailsForOtp(response);
-      }, 5000);
+      }, 2000);
       // this.$store.dispatch('getOtpDetails', {
       //   success: this.successSendDetailsForOtp,
       //   failure: this.failureSendDetailsForOtp,
@@ -47,7 +50,6 @@ export default {
       this.apiInProgress = false;
       this.$router.push('/otp-verification');
     },
-    // TODO toaster for error
     failureSendDetailsForOtp(error) {
       this.apiInProgress = false;
     },

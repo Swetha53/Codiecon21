@@ -3,28 +3,23 @@ import axios from 'axios';
 const headers = {};
 
 export default {
-  makeGetRequest(path, callback, fail, stopLoader = false) {
+  makeGetRequest(path, callback, fail) {
     headers['Content-Type'] = 'application/json;charset=UTF-8';
     headers['User-Agent'] = 'instore-byok-web-ui';
-    headers['Stop-Loader'] = stopLoader;
     axios
       .get(path, { withCredentials: true, headers })
       .then((response) => { callback(response); })
       .catch(fail);
   },
-  makePostRequest(path, callback, fail, payload, stopLoader = false) {
-    headers['Content-Type'] = 'application/json;charset=UTF-8';
-    headers['User-Agent'] = 'instore-byok-web-ui';
-    headers['Stop-Loader'] = stopLoader;
+  makePostRequest(path, callback, fail, payload) {
     axios
-      .post(path, payload, { withCredentials: true, headers })
+      .post(path, payload)
       .then(callback)
       .catch(fail);
   },
-  makePutRequest(path, callback, fail, payload, stopLoader = false) {
+  makePutRequest(path, callback, fail, payload) {
     headers['Content-Type'] = 'application/json;charset=UTF-8';
     headers['User-Agent'] = 'instore-byok-web-ui';
-    headers['Stop-Loader'] = stopLoader;
     axios
       .put(path, payload, { withCredentials: true, headers })
       .then(callback)

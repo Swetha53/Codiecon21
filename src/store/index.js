@@ -14,6 +14,7 @@ export default new Vuex.Store({
     otpDetails: {},
     validationResult: {},
     error: '',
+    page: '',
   },
   getters: {
     getOrderDetails(state) {
@@ -30,6 +31,9 @@ export default new Vuex.Store({
     },
     getApiFailure(state) {
       return state.error;
+    },
+    getPage(state) {
+      return state.page;
     },
   },
   mutations: {
@@ -48,6 +52,9 @@ export default new Vuex.Store({
     setApiFailure(state, value) {
       state.error = value;
     },
+    setPage(state, value) {
+      state.page = value;
+    },
   },
   actions: {
     getLocation({ commit }, { success, failure }) {
@@ -65,7 +72,7 @@ export default new Vuex.Store({
         });
     },
     getOtpDetails({ commit }, { success, failure, payload }) {
-      apiCall.makePostRequest('http://x-off2on.qa2-sg.cld/x-off2on/api/delivery/getOtp',
+      apiCall.makeGetRequestWithoutHeader(`http://x-off2on.qa2-sg.cld/x-off2on/api/delivery/getOtp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
         (response) => {
           if (response.status === 200 || response.body.success) {
             // TODO check response

@@ -4,7 +4,7 @@ export default {
     return {
       isTimer: '',
       count: {
-        time: 120,
+        time: 30,
         minute: '00',
         second: '00',
       },

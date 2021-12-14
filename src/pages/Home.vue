@@ -4,6 +4,7 @@
       <div class="header">
         <span class="header-title">{{getOrderDetails.orderId}}</span>
       </div>
+      <ProgressBar/>
       <div class="header-body">
         Please confirm your mobile number, so that we can send you the OTP
         to make sure the order has been delivered.

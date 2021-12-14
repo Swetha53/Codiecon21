@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import Timer from '@/components/Timer.vue';
 import OtpInput from '@/components/OtpInput.vue';
 import Toaster from '@/components/Toaster.vue';
+import ProgressBar from '@/components/ProgressBar.vue';
 
 export default {
   name: 'Verification',
@@ -10,6 +11,7 @@ export default {
     Timer,
     OtpInput,
     Toaster,
+    ProgressBar,
   },
   data() {
     return {
@@ -17,15 +19,15 @@ export default {
       otpValue: '',
       resendOtpFlag: false,
       message: 'Please check your mobile phone for the OTP.',
-      page: 'otp',
       apiInProgress: false,
       location: '',
     };
   },
   computed: {
-    ...mapGetters(['getOrderDetails', 'getLocation', 'getApiFailure']),
+    ...mapGetters(['getOrderDetails', 'getLocation', 'getApiFailure', 'getPage']),
   },
   mounted() {
+    this.$store.commit('setPage', 'otp');
     this.getLocationApiCall();
   },
   methods: {
@@ -43,7 +45,7 @@ export default {
     },
     resendOtpApiCall() {
       // TODO api call for getting otp with mobile number
-      this.page = 'otp';
+      this.$store.commit('setPage', 'otp');
       const request = {
         phoneNumber: this.getOrderDetails.tempMobile,
         orderId: this.getOrderDetails.orderId,
@@ -55,7 +57,7 @@ export default {
       setTimeout(() => {
         console.log(request);
         this.successResendOtpApiCall(response);
-      }, 5000);
+      }, 2000);
       // this.$store.dispatch('getOtpDetails', {
       //   success: this.successResendOtpApiCall,
       //   failure: this.failureResendOtpApiCallure,
@@ -65,12 +67,10 @@ export default {
     successResendOtpApiCall(repsonse) {
       this.timerRestart += 1;
     },
-    // TODO toaster
     failureResendOtpApiCallure(error) {
-      // TODO check if timer restarts
+      console.log(error);
     },
     otpVerification() {
-      // TODO check if otp needs to be checked in front end as well
       this.apiInProgress = true;
       const request = {
         mobileNo: this.getOrderDetails.tempMobile,
@@ -86,7 +86,7 @@ export default {
       setTimeout(() => {
         console.log(request);
         this.successOtpVerification(response);
-      }, 5000);
+      }, 2000);
       // this.$store.dispatch('getValidationResult', {
       //   success: this.successOtpVerification,
       //   failure: this.failureOtpVerifcation,
@@ -96,20 +96,28 @@ export default {
     successOtpVerification(response) {
       this.apiInProgress = false;
       this.message = 'Successfully authenticated. Thank you for your patience!!';
-      this.page = 'success';
+      this.$store.commit('setPage', 'success');
     },
     failureOtpVerifcation(error) {
       this.apiInProgress = false;
       this.message = 'There seems to be some issue please click on resend OTP to get OTP once again or click confirm phone number to change your mobile number.';
-      this.page = 'failure';
+      this.$store.commit('setPage', 'failure');
     },
     getLocationApiCall() {
-      this.$store.dispatch('getLocation', {
-        success: this.successGetLocationApiCall,
-        failure: this.failureGetLocationApiCall,
-      });
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
+          this.failureGetLocationApiCall);
+      } else {
+        this.$store.dispatch('getLocation', {
+          success: this.successGetLocationApiCall,
+          failure: this.failureGetLocationApiCall,
+        });
+      }
     },
     successGetLocationApiCall(response) {
+      // TODO check response
+      // TODO api calls cookie check
+      console.log(response);
       this.location = `Latitude: ${response.lat}, Longitude: ${response.lon}`;
     },
     failureGetLocationApiCall(error) {
