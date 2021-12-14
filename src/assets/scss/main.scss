@@ -99,6 +99,7 @@ input[type="tel"] {
     text-align: center;
     font-size: 26px;
     color: transparent;
+    background-color: $grey-e0;
   }
   input[type="text"].filled-box {
     background-color: $grey-e0;
@@ -109,6 +110,12 @@ input[type="tel"] {
   height: 32px;
   width: 120px;
   font-size: 14px;
+}
+
+.btn.disabled {
+  background-color: $grey-e0;
+  pointer-events: none;
+  cursor: none;
 }
 
 .blu-btn {

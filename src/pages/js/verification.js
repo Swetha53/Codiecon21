@@ -13,7 +13,7 @@ export default {
     return {
       timerRestart: 0,
       otpValue: '',
-      resendOtpFlag: true,
+      resendOtpFlag: false,
       message: 'Please check your mobile phone for the OTP.',
       page: 'otp',
     };
@@ -28,14 +28,18 @@ export default {
     storeOtpValue(otpValue) {
       this.otpValue = '';
       for (let i = 0; i < otpValue.length; i += 1) {
-        this.otpValue = `${this.otpValue}${i}`;
+        if (otpValue[i]) {
+          this.otpValue = `${this.otpValue}${otpValue[i]}`;
+        }
       }
     },
     resendOtpShow() {
-      this.resendOtp = true;
+      console.log('here');
+      this.resendOtpFlag = true;
     },
     resendOtpApiCall() {
       // TODO api call for getting otp with mobile number
+      this.page = 'otp';
       this.successResendOtpApiCall('');
     },
     successResendOtpApiCall(repsonse) {
@@ -50,7 +54,7 @@ export default {
     otpVerification() {
       // TODO send geolocation in request
       // api call whose success gives success message and error gives error message
-      this.successOtpVerification('');
+      this.failureOtpVerifcation('');
     },
     successOtpVerification(response) {
       this.message = 'Successfully authenticated. Thank you for your patience!!';
@@ -71,6 +75,9 @@ export default {
     },
     failureGetLocationApiCall(error) {
       console.log(error);
+    },
+    redirect() {
+      this.$router.push('/delivery-authentication');
     },
   },
 };

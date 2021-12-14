@@ -10,10 +10,13 @@
       </div>
     </div>
     <div class="body">
-      <input type="tel" name="mobile" id="mobile" v-model="mobile"/>
+      <input type="tel" name="mobile" id="mobile" v-model="mobile" :disabled="apiInProgress"/>
     </div>
     <div class="footer">
-      <button class="btn blu-btn" @click="sendDetailsForOtp">Send OTP</button>
+      <button class="btn blu-btn" @click="sendDetailsForOtp"
+      :disabled="apiInProgress" :class="{'disabled': apiInProgress}">
+        Send OTP
+      </button>
     </div>
   </div>
 </template>

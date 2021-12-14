@@ -8,7 +8,7 @@
         {{message}}
       </div>
     </div>
-    <div class="body" v-if="page !== 'success'">
+    <div class="body" v-if="page === 'otp'">
       <OtpInput
         @storeOtpValue="storeOtpValue"
       />
@@ -18,11 +18,14 @@
       />
     </div>
     <div class="footer buttons-footer" v-if="page !== 'success'">
-      <a :class="{'disabled': !resendOtpFlag}" @click="resendOtpApiCall">Resend OTP</a>
-      <button v-if="page === 'otp'" class="btn blu-btn" @click="otpVerification">
+      <a :class="{'disabled': (!resendOtpFlag && page !== 'failure')}" @click="resendOtpApiCall">
+        Resend OTP
+      </a>
+      <button v-if="page === 'otp'" class="btn blu-btn" :class="{'disabled': otpValue.length !== 4}"
+      @click="otpVerification">
         Confirm Order
       </button>
-      <button v-else class="btn blu-btn" @click="otpVerification">Check My Number</button>
+      <button v-else class="btn blu-btn" @click="redirect">Check My Number</button>
     </div>
     <div class="footer" v-else>
       <!-- TODO at click of this button -->
