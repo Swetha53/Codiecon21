@@ -6,6 +6,7 @@ export default {
       inputs: [],
     };
   },
+  props: ['disabled'],
   mounted() {
     this.inputs = document.getElementsByClassName('otp-input__box');
   },

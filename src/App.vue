@@ -5,7 +5,6 @@
 </template>
 
 <script>
-// TODO store needed ?
 export default {
   name: 'App',
   // TODO language change do we need it i18n required for that

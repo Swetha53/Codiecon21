@@ -16,10 +16,12 @@ export default {
       resendOtpFlag: false,
       message: 'Please check your mobile phone for the OTP.',
       page: 'otp',
+      apiInProgress: false,
+      location: '',
     };
   },
   computed: {
-    ...mapGetters(['getOrderDetails']),
+    ...mapGetters(['getOrderDetails', 'getLocation']),
   },
   mounted() {
     this.getLocationApiCall();
@@ -40,27 +42,62 @@ export default {
     resendOtpApiCall() {
       // TODO api call for getting otp with mobile number
       this.page = 'otp';
-      this.successResendOtpApiCall('');
+      const request = {
+        phoneNumber: this.getOrderDetails.tempMobile,
+        orderId: this.getOrderDetails.orderId,
+      };
+      const response = {
+        otp: '1234',
+      };
+      this.resendOtpFlag = false;
+      setTimeout(() => {
+        console.log(request);
+        this.successResendOtpApiCall(response);
+      }, 5000);
+      // this.$store.dispatch('getOtpDetails', {
+      //   success: this.successResendOtpApiCall,
+      //   failure: this.failureResendOtpApiCallure,
+      //   payload: request,
+      // });
     },
     successResendOtpApiCall(repsonse) {
-      this.resendOtpFlag = false;
       this.timerRestart += 1;
     },
     // TODO toaster
     failureResendOtpApiCallure(error) {
-      // TODO open toaster with error message
       // TODO check if timer restarts
     },
     otpVerification() {
-      // TODO send geolocation in request
-      // api call whose success gives success message and error gives error message
-      this.failureOtpVerifcation('');
+      // TODO check if otp needs to be checked in front end as well
+      this.apiInProgress = true;
+      const request = {
+        mobileNo: this.getOrderDetails.tempMobile,
+        otp: this.otpValue,
+        address: this.location,
+        time: new Date(),
+        orderId: this.getOrderDetails.orderId,
+      };
+      const response = {
+        success: true,
+        errorMessage: '',
+      };
+      setTimeout(() => {
+        console.log(request);
+        this.successOtpVerification(response);
+      }, 5000);
+      // this.$store.dispatch('getValidationResult', {
+      //   success: this.successOtpVerification,
+      //   failure: this.failureOtpVerifcation,
+      //   payload: request,
+      // });
     },
     successOtpVerification(response) {
+      this.apiInProgress = false;
       this.message = 'Successfully authenticated. Thank you for your patience!!';
       this.page = 'success';
     },
     failureOtpVerifcation(error) {
+      this.apiInProgress = false;
       this.message = 'There seems to be some issue please click on resend OTP to get OTP once again or click confirm phone number to change your mobile number.';
       this.page = 'failure';
     },
@@ -71,7 +108,7 @@ export default {
       });
     },
     successGetLocationApiCall(response) {
-      console.log(response);
+      this.location = `Latitude: ${response.lat}, Longitude: ${response.lon}`;
     },
     failureGetLocationApiCall(error) {
       console.log(error);

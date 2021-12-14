@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex';
 
 export default {
@@ -18,9 +19,10 @@ export default {
   methods: {
     sendDetailsForOtp() {
       // eslint-disable-next-line prefer-object-spread
-      this.$store.commit('setOrderDetails', Object.assign({}, this.getOrderDetails, { tempMobile: this.mobile }));
+      this.$store.commit('setOrderDetails', Object.assign({}, { tempMobile: this.mobile }, this.getOrderDetails));
       const request = {
-        mobile: this.getOrderDetails.tempMobile,
+        phoneNumber: this.getOrderDetails.tempMobile,
+        orderId: this.getOrderDetails.orderId,
       };
       // TODO api call if success then redirect
       const response = {
@@ -31,11 +33,19 @@ export default {
         console.log(request);
         this.successSendDetailsForOtp(response);
       }, 5000);
+      // this.$store.dispatch('getOtpDetails', {
+      //   success: this.successSendDetailsForOtp,
+      //   failure: this.failureSendDetailsForOtp,
+      //   payload: request,
+      // });
     },
-    // eslint-disable-next-line no-unused-vars
     successSendDetailsForOtp(response) {
       this.apiInProgress = false;
       this.$router.push('/otp-verification');
+    },
+    // TODO toaster for error
+    failureSendDetailsForOtp(error) {
+      this.apiInProgress = false;
     },
   },
 };
