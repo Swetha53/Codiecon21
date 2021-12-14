@@ -2,12 +2,14 @@
 import { mapGetters } from 'vuex';
 import Timer from '@/components/Timer.vue';
 import OtpInput from '@/components/OtpInput.vue';
+import Toaster from '@/components/Toaster.vue';
 
 export default {
   name: 'Verification',
   components: {
     Timer,
     OtpInput,
+    Toaster,
   },
   data() {
     return {
@@ -21,7 +23,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getOrderDetails', 'getLocation']),
+    ...mapGetters(['getOrderDetails', 'getLocation', 'getApiFailure']),
   },
   mounted() {
     this.getLocationApiCall();

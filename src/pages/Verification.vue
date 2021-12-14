@@ -7,6 +7,7 @@
       <div class="header-body">
         {{message}}
       </div>
+      <Toaster v-if="getApiFailure"/>
     </div>
     <div class="body" v-if="page === 'otp'">
       <OtpInput

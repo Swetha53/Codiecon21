@@ -8,6 +8,7 @@
         Please confirm your mobile number, so that we can send you the OTP
         to make sure the order has been delivered.
       </div>
+      <Toaster v-if="getApiFailure"/>
     </div>
     <div class="body">
       <input type="tel" name="mobile" id="mobile" v-model="mobile" :disabled="apiInProgress"/>

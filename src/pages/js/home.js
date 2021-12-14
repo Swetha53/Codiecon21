@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex';
+import Toaster from '@/components/Toaster.vue';
 
 export default {
   name: 'Home',
@@ -9,8 +10,11 @@ export default {
       apiInProgress: false,
     };
   },
+  components: {
+    Toaster,
+  },
   computed: {
-    ...mapGetters(['getOrderDetails']),
+    ...mapGetters(['getOrderDetails', 'getApiFailure']),
   },
   mounted() {
     // TODO at mount mobile should be prefilled

@@ -13,6 +13,7 @@ export default new Vuex.Store({
     location: {},
     otpDetails: {},
     validationResult: {},
+    error: '',
   },
   getters: {
     getOrderDetails(state) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     getValidationResult(state) {
       return state.validationResult;
     },
+    getApiFailure(state) {
+      return state.error;
+    },
   },
   mutations: {
     setOrderDetails(state, value) {
@@ -40,6 +44,9 @@ export default new Vuex.Store({
     },
     setValidationResult(state, value) {
       state.validationResult = value;
+    },
+    setApiFailure(state, value) {
+      state.error = value;
     },
   },
   actions: {
@@ -65,6 +72,7 @@ export default new Vuex.Store({
             commit('setOtp', response);
             success(response);
           } else {
+            commit('setApiFailure', 'Some issue in sending otp');
             failure(response);
           }
         },
@@ -81,6 +89,7 @@ export default new Vuex.Store({
           success(response);
         },
         (error) => {
+          commit('setApiFailure', 'Some issue in validation');
           failure(error);
         },
         payload);

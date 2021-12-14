@@ -128,3 +128,15 @@ input[type="tel"] {
 .large-btn {
   width: 100%;
 }
+
+.toaster {
+  width: fit-content;
+  height: fit-content;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px;
+  background-color: rgba(255,0,0, 0.38);
+  border: 1px solid red;
+  border-radius: 4px;
+}
