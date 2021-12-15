@@ -24,7 +24,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getOrderDetails', 'getLocation', 'getApiFailure', 'getPage']),
+    ...mapGetters(['getOrderId', 'getOrderDetails', 'getLocation', 'getApiFailure', 'getPage']),
   },
   mounted() {
     this.$store.commit('setPage', 'otp');
@@ -44,25 +44,17 @@ export default {
       this.resendOtpFlag = true;
     },
     resendOtpApiCall() {
-      // TODO api call for getting otp with mobile number
       this.$store.commit('setPage', 'otp');
       const request = {
         phoneNumber: this.getOrderDetails.tempMobile,
-        orderId: this.getOrderDetails.orderId,
-      };
-      const response = {
-        otp: '1234',
+        orderId: this.getOrderId,
       };
       this.resendOtpFlag = false;
-      setTimeout(() => {
-        console.log(request);
-        this.successResendOtpApiCall(response);
-      }, 2000);
-      // this.$store.dispatch('getOtpDetails', {
-      //   success: this.successResendOtpApiCall,
-      //   failure: this.failureResendOtpApiCallure,
-      //   payload: request,
-      // });
+      this.$store.dispatch('getOtpDetails', {
+        success: this.successResendOtpApiCall,
+        failure: this.failureResendOtpApiCallure,
+        payload: request,
+      });
     },
     successResendOtpApiCall(repsonse) {
       this.timerRestart += 1;
@@ -73,25 +65,16 @@ export default {
     otpVerification() {
       this.apiInProgress = true;
       const request = {
-        mobileNo: this.getOrderDetails.tempMobile,
+        phoneNumber: this.getOrderDetails.tempMobile,
         otp: this.otpValue,
         address: this.location,
-        time: new Date(),
-        orderId: this.getOrderDetails.orderId,
+        orderId: this.getOrderId,
       };
-      const response = {
-        success: true,
-        errorMessage: '',
-      };
-      setTimeout(() => {
-        console.log(request);
-        this.successOtpVerification(response);
-      }, 2000);
-      // this.$store.dispatch('getValidationResult', {
-      //   success: this.successOtpVerification,
-      //   failure: this.failureOtpVerifcation,
-      //   payload: request,
-      // });
+      this.$store.dispatch('getValidationResult', {
+        success: this.successOtpVerification,
+        failure: this.failureOtpVerifcation,
+        payload: request,
+      });
     },
     successOtpVerification(response) {
       this.apiInProgress = false;
@@ -104,6 +87,7 @@ export default {
       this.$store.commit('setPage', 'failure');
     },
     getLocationApiCall() {
+      // TODO modal for location
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
           this.failureGetLocationApiCall);
@@ -116,9 +100,8 @@ export default {
     },
     successGetLocationApiCall(response) {
       // TODO check response
-      // TODO api calls cookie check
       console.log(response);
-      this.location = `Latitude: ${response.lat}, Longitude: ${response.lon}`;
+      this.location = `${response.lat}, ${response.lon}`;
     },
     failureGetLocationApiCall(error) {
       console.log(error);

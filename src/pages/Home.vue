@@ -2,7 +2,7 @@
   <div class="home">
     <div class="header-container">
       <div class="header">
-        <span class="header-title">{{getOrderDetails.orderId}}</span>
+        <span class="header-title">{{getOrderId}}</span>
       </div>
       <ProgressBar/>
       <div class="header-body">

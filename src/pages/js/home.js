@@ -16,12 +16,12 @@ export default {
     ProgressBar,
   },
   computed: {
-    ...mapGetters(['getOrderDetails', 'getApiFailure']),
+    ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure']),
   },
   mounted() {
-    // TODO at mount mobile should be prefilled
+    // TODO scanner
     this.$store.commit('setPage', 'home');
-    this.mobile = '9876543210';
+    this.getMobileNumber();
   },
   methods: {
     sendDetailsForOtp() {
@@ -29,22 +29,14 @@ export default {
       this.$store.commit('setOrderDetails', Object.assign({}, { tempMobile: this.mobile }, this.getOrderDetails));
       const request = {
         phoneNumber: this.getOrderDetails.tempMobile,
-        orderId: this.getOrderDetails.orderId,
-      };
-      // TODO api call if success then redirect
-      const response = {
-        otp: '1234',
+        orderId: this.getOrderId,
       };
       this.apiInProgress = true;
-      setTimeout(() => {
-        console.log(request);
-        this.successSendDetailsForOtp(response);
-      }, 2000);
-      // this.$store.dispatch('getOtpDetails', {
-      //   success: this.successSendDetailsForOtp,
-      //   failure: this.failureSendDetailsForOtp,
-      //   payload: request,
-      // });
+      this.$store.dispatch('getOtpDetails', {
+        success: this.successSendDetailsForOtp,
+        failure: this.failureSendDetailsForOtp,
+        payload: request,
+      });
     },
     successSendDetailsForOtp(response) {
       this.apiInProgress = false;
@@ -52,6 +44,25 @@ export default {
     },
     failureSendDetailsForOtp(error) {
       this.apiInProgress = false;
+    },
+    getMobileNumber() {
+      this.apiInProgress = true;
+      const request = {
+        orderId: this.getOrderId,
+      };
+      this.$store.dispatch('getMobileNumber', {
+        success: this.successGetMobileNumber,
+        failure: this.failureGetMobileNumber,
+        payload: request,
+      });
+    },
+    successGetMobileNumber(response) {
+      this.apiInProgress = false;
+      this.mobile = response.data.value.phoneNumber;
+    },
+    failureGetMobileNumber(error) {
+      this.apiInProgress = false;
+      this.mobile = '';
     },
   },
 };

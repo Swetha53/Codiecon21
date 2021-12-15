@@ -1,3 +1,4 @@
+/* eslint-disable prefer-object-spread */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import apiCall from '@/api/index';
@@ -6,10 +7,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    orderDetails: {
-      orderId: 'order123',
-      mobile: '9876543210',
-    },
+    orderId: '27000523152',
+    orderDetails: {},
     location: {},
     otpDetails: {},
     validationResult: {},
@@ -17,6 +16,9 @@ export default new Vuex.Store({
     page: '',
   },
   getters: {
+    getOrderId(state) {
+      return state.orderId;
+    },
     getOrderDetails(state) {
       return state.orderDetails;
     },
@@ -37,6 +39,9 @@ export default new Vuex.Store({
     },
   },
   mutations: {
+    setOrderId(state, value) {
+      state.orderId = value;
+    },
     setOrderDetails(state, value) {
       state.orderDetails = value;
     },
@@ -72,34 +77,51 @@ export default new Vuex.Store({
         });
     },
     getOtpDetails({ commit }, { success, failure, payload }) {
-      apiCall.makeGetRequestWithoutHeader(`http://x-off2on.qa2-sg.cld/x-off2on/api/delivery/getOtp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
+      apiCall.makeGetRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/otp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
         (response) => {
-          if (response.status === 200 || response.body.success) {
-            // TODO check response
-            commit('setOtp', response);
+          if (response.data.result === 'true') {
+            commit('setOtp', response.data);
             success(response);
           } else {
-            commit('setApiFailure', 'Some issue in sending otp');
+            commit('setApiFailure', response.data.errorDesc);
             failure(response);
           }
         },
         (error) => {
           failure(error);
-        },
-        payload);
+        });
     },
     getValidationResult({ commit }, { success, failure, payload }) {
-      apiCall.makePostRequest('http://x-off2on.qa2-sg.cld/x-off2on/api/delivery/validate',
+      apiCall.makePostRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/validate?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}&otp=${payload.otp}&address=${payload.address}`,
         (response) => {
-          console.log(response);
-          commit('setValidationResult', response);
-          success(response);
+          commit('setValidationResult', response.data);
+          if (response.data.result !== 'false') {
+            success(response);
+          } else {
+            commit('setApiFailure', response.data.errorDesc);
+            failure(response);
+          }
         },
         (error) => {
           commit('setApiFailure', 'Some issue in validation');
           failure(error);
+        });
+    },
+    getMobileNumber({ commit }, { success, failure, payload }) {
+      apiCall.makeGetRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/getNumber?orderId=${payload.orderId}`,
+        (response) => {
+          if (response.data.success) {
+            commit('setOrderDetails', response.data.value);
+            success(response);
+          } else {
+            commit('setApiFailure', response.data.errorMessage);
+            failure(response);
+          }
         },
-        payload);
+        (error) => {
+          commit('setApiFailure', 'Some issue in getting your mobile number please reload.');
+          failure(error);
+        });
     },
   },
   modules: {
