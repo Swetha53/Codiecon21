@@ -21,6 +21,7 @@ export default {
       message: 'Please check your mobile phone for the OTP.',
       apiInProgress: false,
       location: '',
+      isGeolocation: true,
     };
   },
   computed: {
@@ -87,21 +88,29 @@ export default {
       this.$store.commit('setPage', 'failure');
     },
     getLocationApiCall() {
-      // TODO modal for location
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
-          this.failureGetLocationApiCall);
-      } else {
-        this.$store.dispatch('getLocation', {
-          success: this.successGetLocationApiCall,
-          failure: this.failureGetLocationApiCall,
-        });
-      }
+      navigator.permissions.query({ name: 'geolocation' }).then((result) => {
+        if (result.state === 'granted') {
+          navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
+            this.failureGetLocationApiCall);
+        } else if (result.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
+            this.getLocationApiCall);
+        } else {
+          this.isGeolocation = false;
+          this.$store.dispatch('getLocation', {
+            success: this.successGetLocationApiCall,
+            failure: this.failureGetLocationApiCall,
+          });
+        }
+      });
     },
     successGetLocationApiCall(response) {
-      // TODO check response
       console.log(response);
-      this.location = `${response.lat}, ${response.lon}`;
+      if (this.isGeolocation) {
+        this.location = `${response.coords.latitude}, ${response.coords.longitude}`;
+      } else {
+        this.location = `${response.lat}, ${response.lon}`;
+      }
     },
     failureGetLocationApiCall(error) {
       console.log(error);

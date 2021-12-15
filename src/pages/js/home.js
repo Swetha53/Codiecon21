@@ -9,6 +9,7 @@ export default {
     return {
       mobile: 0,
       apiInProgress: false,
+      orderId: this.$route.path.split('/').slice(-1)[0].split('=')[1],
     };
   },
   components: {
@@ -19,7 +20,8 @@ export default {
     ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure']),
   },
   mounted() {
-    // TODO scanner
+    // TODO mobile api not working
+    this.$store.commit('setOrderId', this.orderId);
     this.$store.commit('setPage', 'home');
     this.getMobileNumber();
   },

@@ -9,7 +9,7 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/delivery-authentication',
+      path: '/delivery-authentication/order=:orderId',
       component: Home,
       name: 'Home',
     },
