@@ -9,9 +9,10 @@ const router = new Router({
   mode: 'history',
   routes: [
     {
-      path: '/delivery-authentication/order=:orderId',
+      path: '/delivery-authentication',
       component: Home,
       name: 'Home',
+      props: (route) => ({ order: route.query.order }),
     },
     {
       path: '/otp-verification',

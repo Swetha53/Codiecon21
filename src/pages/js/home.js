@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex';
-import Toaster from '@/components/Toaster.vue';
-import ProgressBar from '@/components/ProgressBar.vue';
+import Toaster from '../../components/Toaster.vue';
+import ProgressBar from '../../components/ProgressBar.vue';
 
 export default {
   name: 'Home',
@@ -9,7 +9,7 @@ export default {
     return {
       mobile: 0,
       apiInProgress: false,
-      orderId: this.$route.path.split('/').slice(-1)[0].split('=')[1],
+      orderId: this.$route.query.order,
     };
   },
   components: {

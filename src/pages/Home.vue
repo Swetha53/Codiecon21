@@ -16,7 +16,7 @@
     </div>
     <div class="footer">
       <button class="btn blu-btn" @click="sendDetailsForOtp"
-      :disabled="apiInProgress" :class="{'disabled': apiInProgress}">
+      :disabled="apiInProgress || !mobile" :class="{'disabled': apiInProgress || !mobile}">
         Send OTP
       </button>
     </div>

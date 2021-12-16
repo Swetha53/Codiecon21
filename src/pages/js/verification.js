@@ -1,9 +1,9 @@
 /* eslint-disable no-unused-vars */
 import { mapGetters } from 'vuex';
-import Timer from '@/components/Timer.vue';
-import OtpInput from '@/components/OtpInput.vue';
-import Toaster from '@/components/Toaster.vue';
-import ProgressBar from '@/components/ProgressBar.vue';
+import Timer from '../../components/Timer.vue';
+import OtpInput from '../../components/OtpInput.vue';
+import Toaster from '../../components/Toaster.vue';
+import ProgressBar from '../../components/ProgressBar.vue';
 
 export default {
   name: 'Verification',

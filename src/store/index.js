@@ -1,7 +1,7 @@
 /* eslint-disable prefer-object-spread */
 import Vue from 'vue';
 import Vuex from 'vuex';
-import apiCall from '@/api/index';
+import apiCall from '../api/index';
 
 Vue.use(Vuex);
 
@@ -77,7 +77,7 @@ export default new Vuex.Store({
         });
     },
     getOtpDetails({ commit }, { success, failure, payload }) {
-      apiCall.makeGetRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/otp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
+      apiCall.makeGetRequest(`/mobile-api/delivery/otp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
         (response) => {
           if (response.data.result === 'true') {
             commit('setOtp', response.data);
@@ -92,7 +92,7 @@ export default new Vuex.Store({
         });
     },
     getValidationResult({ commit }, { success, failure, payload }) {
-      apiCall.makePostRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/validate?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}&otp=${payload.otp}&address=${payload.address}`,
+      apiCall.makePostRequest(`/mobile-api/delivery/validate?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}&otp=${payload.otp}&address=${payload.address}`,
         (response) => {
           commit('setValidationResult', response.data);
           if (response.data.result !== 'false') {
@@ -108,7 +108,7 @@ export default new Vuex.Store({
         });
     },
     getMobileNumber({ commit }, { success, failure, payload }) {
-      apiCall.makeGetRequest(`http://mobile-api.qa2-sg.cld:80/mobile-api/delivery/delivery/getNumber?orderId=${payload.orderId}`,
+      apiCall.makeGetRequest(`/mobile-api/delivery/getNumber?orderId=${payload.orderId}`,
         (response) => {
           if (response.data.success) {
             commit('setOrderDetails', response.data.value);
