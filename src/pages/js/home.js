@@ -20,7 +20,6 @@ export default {
     ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure']),
   },
   mounted() {
-    // TODO mobile api not working
     this.$store.commit('setOrderId', this.orderId);
     this.$store.commit('setPage', 'home');
     this.getMobileNumber();

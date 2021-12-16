@@ -25,7 +25,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['getOrderId', 'getOrderDetails', 'getLocation', 'getApiFailure', 'getPage']),
+    ...mapGetters(['getOrderId', 'getOrderDetails', 'getLocation', 'getApiFailure', 'getPage', 'getValidationResult']),
   },
   mounted() {
     this.$store.commit('setPage', 'otp');
@@ -41,7 +41,6 @@ export default {
       }
     },
     resendOtpShow() {
-      console.log('here');
       this.resendOtpFlag = true;
     },
     resendOtpApiCall() {
@@ -105,7 +104,6 @@ export default {
       });
     },
     successGetLocationApiCall(response) {
-      console.log(response);
       if (this.isGeolocation) {
         this.location = `${response.coords.latitude}, ${response.coords.longitude}`;
       } else {
@@ -116,7 +114,7 @@ export default {
       console.log(error);
     },
     redirect() {
-      this.$router.push('/delivery-authentication');
+      this.$router.push(`/delivery-authentication?order=${this.getOrderId}`);
     },
   },
 };

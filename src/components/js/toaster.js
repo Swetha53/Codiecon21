@@ -2,12 +2,15 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Toaster',
+  props: ['message', 'type', 'closeable'],
   computed: {
     ...mapGetters(['getApiFailure']),
   },
   mounted() {
-    setTimeout(() => {
-      this.$store.commit('setApiFailure', '');
-    }, 2000);
+    if (this.closeable) {
+      setTimeout(() => {
+        this.$store.commit('setApiFailure', '');
+      }, 2000);
+    }
   },
 };

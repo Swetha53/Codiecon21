@@ -8,7 +8,7 @@
       <div class="header-body">
         {{message}}
       </div>
-      <Toaster v-if="getApiFailure"/>
+      <Toaster v-if="getApiFailure" :closeable="true" :message="getApiFailure" :type="'error'"/>
     </div>
     <div class="body" v-if="getPage === 'otp'">
       <OtpInput
@@ -19,6 +19,12 @@
         :key="timerRestart"
         @resendOtpShow="resendOtpShow"
       />
+    </div>
+    <div class="body" v-else>
+      <Toaster class="toaster__message" v-if="getPage === 'failure'" :closeable="false"
+        :message="getValidationResult.errorDesc" :type="'error'"/>
+      <Toaster class="toaster__message" v-if="getPage === 'success'" :closeable="false"
+        :message="getValidationResult.errorDesc" :type="'success'"/>
     </div>
     <div class="footer buttons-footer" v-if="getPage !== 'success'">
       <a :class="{'disabled': (!resendOtpFlag && getPage !== 'failure')}" @click="resendOtpApiCall">

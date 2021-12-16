@@ -98,7 +98,6 @@ export default new Vuex.Store({
           if (response.data.result !== 'false') {
             success(response);
           } else {
-            commit('setApiFailure', response.data.errorDesc);
             failure(response);
           }
         },

@@ -1,6 +1,6 @@
 <template>
-  <div class="toaster">
-    {{getApiFailure}}
+  <div class="toaster" :class="type === 'success' ? 'toaster__success' : 'toaster__error'">
+    {{message}}
   </div>
 </template>
 

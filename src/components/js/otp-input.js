@@ -29,6 +29,7 @@ export default {
       }
     },
     sendOtp(position) {
+      this.otpValue[position - 1] = this.inputs[position - 1].value;
       if (this.inputs[position - 1].value !== '' && position !== this.inputs.length) {
         this.inputs[position].focus();
       }
