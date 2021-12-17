@@ -28,12 +28,14 @@
       />
     </div>
     <div class="body" v-else>
-      <Toaster class="toaster__message" :closeable="false" :message="getValidationResult.errorDesc"
-        v-if="getPage === 'failure' && getValidationResult.errorDesc" :type="'error'"/>
+      <Toaster class="toaster__message" :closeable="false"
+        :message="getValidationResult.errorMessage"
+        v-if="getPage === 'failure' && getValidationResult.errorMessage" :type="'error'"/>
       <Toaster class="toaster__message" v-if="getPage === 'success'"
         :closeable="false" :type="'success'"
-        :message="`You package has been delivered to approx. ${getValidationResult.distance} km`
-        + `away from the delivery location, ${getValidationResult.address}`"/>
+        :message="`You package has been delivered to ${getValidationResult.value.address}` +
+        `which is approx. ${getValidationResult.value.distance} km` +
+        `away from the delivery location`"/>
     </div>
     <div class="footer buttons-footer" v-if="getPage !== 'success'">
       <a :class="{'disabled': (!resendOtpFlag && getPage !== 'failure')}" @click="resendOtpApiCall">

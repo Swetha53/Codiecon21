@@ -63,6 +63,7 @@ export default {
     resendOtpApiCall() {
       this.$store.commit('setPage', 'otp');
       const request = {
+        resendOtp: true,
         phoneNumber: this.getOrderDetails.tempMobile,
         orderId: this.getOrderId,
       };
@@ -85,7 +86,7 @@ export default {
         const request = {
           phoneNumber: this.getOrderDetails.tempMobile,
           otp: this.otpValue,
-          address: `${this.getLocation.latitude}, ${this.getLocation.longitude}`,
+          address: `${this.getLocation.latitude},${this.getLocation.longitude}`,
           orderId: this.getOrderId,
         };
         this.$store.dispatch('getValidationResult', {
@@ -107,6 +108,8 @@ export default {
       this.$store.commit('setPage', 'failure');
     },
     redirect() {
+      validation.validatorObject = {};
+      this.$store.commit('isResendOtp', true);
       this.$router.push(`/delivery-authentication?order=${this.getOrderId}`);
     },
     fieldValidation(validateName, value1) {

@@ -10,7 +10,7 @@ export default {
     if (this.closeable) {
       setTimeout(() => {
         this.$store.commit('setApiFailure', '');
-      }, 2000);
+      }, 5000);
     }
   },
 };

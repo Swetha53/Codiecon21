@@ -14,6 +14,7 @@ export default new Vuex.Store({
     validationResult: {},
     error: '',
     page: '',
+    resendOtp: false,
   },
   getters: {
     getOrderId(state) {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     getPage(state) {
       return state.page;
+    },
+    getResendOtp(state) {
+      return state.resendOtp;
     },
   },
   mutations: {
@@ -60,6 +64,9 @@ export default new Vuex.Store({
     setPage(state, value) {
       state.page = value;
     },
+    isResendOtp(state, value) {
+      state.resendOtp = value;
+    },
   },
   actions: {
     getLocation({ commit }, { success, failure }) {
@@ -77,9 +84,9 @@ export default new Vuex.Store({
         });
     },
     getOtpDetails({ commit }, { success, failure, payload }) {
-      apiCall.makeGetRequest(`/mobile-api/delivery/otp?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
+      apiCall.makeGetRequest(`/mobile-api/delivery/otp?resendOtp=${payload.resendOtp}&orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
         (response) => {
-          if (response.data.result === 'true') {
+          if (response.data.result === true) {
             commit('setOtp', response.data);
             success(response);
           } else {
@@ -95,7 +102,7 @@ export default new Vuex.Store({
       apiCall.makePostRequest(`/mobile-api/delivery/validate?orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}&otp=${payload.otp}&address=${payload.address}`,
         (response) => {
           commit('setValidationResult', response.data);
-          if (response.data.result !== 'false') {
+          if (response.data.success !== false) {
             success(response);
           } else {
             failure(response);

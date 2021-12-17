@@ -26,7 +26,7 @@ export default {
     ProgressBar,
   },
   computed: {
-    ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure', 'getLocation']),
+    ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure', 'getLocation', 'getResendOtp']),
   },
   mounted() {
     this.$store.commit('setOrderId', this.orderId);
@@ -70,9 +70,13 @@ export default {
         // eslint-disable-next-line prefer-object-spread
         this.$store.commit('setOrderDetails', Object.assign({}, { tempMobile: this.mobile }, this.getOrderDetails));
         const request = {
+          resendOtp: false,
           phoneNumber: this.getOrderDetails.tempMobile,
           orderId: this.getOrderId,
         };
+        if (this.getResendOtp) {
+          request.resendOtp = true;
+        }
         this.apiInProgress = true;
         this.$store.dispatch('getOtpDetails', {
           success: this.successSendDetailsForOtp,
@@ -82,6 +86,7 @@ export default {
       }
     },
     successSendDetailsForOtp(response) {
+      validation.validatorObject = {};
       this.apiInProgress = false;
       this.$router.push('/otp-verification');
     },
