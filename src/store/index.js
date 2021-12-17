@@ -14,7 +14,7 @@ export default new Vuex.Store({
     validationResult: {},
     error: '',
     page: '',
-    resendOtp: false,
+    redirected: false,
   },
   getters: {
     getOrderId(state) {
@@ -38,8 +38,8 @@ export default new Vuex.Store({
     getPage(state) {
       return state.page;
     },
-    getResendOtp(state) {
-      return state.resendOtp;
+    getRedirectedFlag(state) {
+      return state.redirected;
     },
   },
   mutations: {
@@ -64,8 +64,8 @@ export default new Vuex.Store({
     setPage(state, value) {
       state.page = value;
     },
-    isResendOtp(state, value) {
-      state.resendOtp = value;
+    isRedirected(state, value) {
+      state.redirected = value;
     },
   },
   actions: {
@@ -86,7 +86,7 @@ export default new Vuex.Store({
     getOtpDetails({ commit }, { success, failure, payload }) {
       apiCall.makeGetRequest(`/mobile-api/delivery/otp?resendOtp=${payload.resendOtp}&orderId=${payload.orderId}&phoneNumber=${payload.phoneNumber}`,
         (response) => {
-          if (response.data.result === true) {
+          if (response.data.result === 'true') {
             commit('setOtp', response.data);
             success(response);
           } else {

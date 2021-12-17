@@ -18,7 +18,7 @@ export default {
       },
       isGeolocation: true,
       validator: {},
-      addMessage: 'Please allow us your location so that we can make sure that the order has been delivered by our delivery agent correctly',
+      addMessage: 'Please allow us your location for verification',
     };
   },
   components: {
@@ -26,7 +26,7 @@ export default {
     ProgressBar,
   },
   computed: {
-    ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure', 'getLocation', 'getResendOtp']),
+    ...mapGetters(['getOrderId', 'getOrderDetails', 'getApiFailure', 'getLocation', 'getRedirectedFlag']),
   },
   mounted() {
     this.$store.commit('setOrderId', this.orderId);
@@ -34,7 +34,11 @@ export default {
     if (this.getLocation && this.getLocation.latitude && this.getLocation.longitude) {
       this.location = this.getLocation;
     }
-    this.getMobileNumber();
+    if (this.getRedirectedFlag) {
+      this.mobile = this.getOrderDetails.tempMobile;
+    } else {
+      this.getMobileNumber();
+    }
     this.createValidation();
   },
   methods: {
@@ -74,7 +78,7 @@ export default {
           phoneNumber: this.getOrderDetails.tempMobile,
           orderId: this.getOrderId,
         };
-        if (this.getResendOtp) {
+        if (this.getRedirectedFlag) {
           request.resendOtp = true;
         }
         this.apiInProgress = true;
@@ -118,8 +122,9 @@ export default {
           navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
             this.failureGetLocationApiCall);
         } else if (result.state === 'prompt') {
+          this.addMessage = 'Please select \'allow\' button in the popup above.';
           navigator.geolocation.getCurrentPosition(this.successGetLocationApiCall,
-            this.getLocationApiCall);
+            this.failureGetLocationApiCall);
         } else {
           this.isGeolocation = false;
           this.$store.dispatch('getLocation', {

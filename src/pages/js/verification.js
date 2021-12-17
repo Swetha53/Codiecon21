@@ -109,7 +109,7 @@ export default {
     },
     redirect() {
       validation.validatorObject = {};
-      this.$store.commit('isResendOtp', true);
+      this.$store.commit('isRedirected', true);
       this.$router.push(`/delivery-authentication?order=${this.getOrderId}`);
     },
     fieldValidation(validateName, value1) {
