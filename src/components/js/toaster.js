@@ -2,7 +2,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'Toaster',
-  props: ['message', 'type', 'closeable'],
+  props: ['message', 'type', 'closeable', 'description'],
   computed: {
     ...mapGetters(['getApiFailure']),
   },

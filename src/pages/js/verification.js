@@ -35,6 +35,7 @@ export default {
   },
   methods: {
     createValidation() {
+      validation.validatorObject = {};
       validation.validatorObject.otp = {
         name: 'mobileNumber',
         validationFun: 'isEmpty',

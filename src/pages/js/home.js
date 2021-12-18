@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     createValidation() {
+      validation.validatorObject = {};
       validation.validatorObject.mobileNumber = {
         name: 'mobileNumber',
         validationFun: 'isEmpty',

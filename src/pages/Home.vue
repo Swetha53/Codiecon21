@@ -32,12 +32,15 @@
         <label for="location">{{addMessage}}</label>
         <div class="body__location-input">
           <input type="text" :disabled="true" v-model="location.latitude"
+            class="left-border"
             :class="{'error-border': validator &&
-            (validator['latitude'] && !validator['latitude'].isValid)}"/>
+            (validator['latitude'] && !validator['latitude'].isValid) ||
+            (validator['longitude'] && !validator['longitude'].isValid)}"/>
           <input type="text" :disabled="true" v-model="location.longitude"
             :class="{'error-border': validator &&
+            (validator['latitude'] && !validator['latitude'].isValid) ||
             (validator['longitude'] && !validator['longitude'].isValid)}"/>
-          <button class="btn blu-btn" @click="getLocationApiCall"
+          <button class="btn blu-btn right-border" @click="getLocationApiCall"
             :disabled="apiInProgress" :class="{'disabled': apiInProgress}">
             Check Location
           </button>

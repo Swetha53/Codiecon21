@@ -17,11 +17,22 @@ input {
   color: $disabled-grey-text;
 }
 
-input[type="tel"] {
+input:focus {
+  outline: none;
+  border: 1px solid $blue;
+}
+
+input#mobile {
   outline: none;
   height: 20px;
   width: 200px;
   padding: 7px;
+  border-radius: 4px;
+}
+
+label {
+  color: rgba(0,0,0,.6);
+  margin-bottom: 5px;
 }
 
 .home {
@@ -44,6 +55,7 @@ input[type="tel"] {
   }
   .header-body {
     padding: 18px;
+    text-align: center;
   }
 }
 
@@ -112,13 +124,11 @@ input[type="tel"] {
     height: 40px;
     width: 30px;
   }
-  input[type="text"] {
+  input {
+    border-radius: 4px;
     text-align: center;
     font-size: 26px;
     color: transparent;
-    background-color: $grey-e0;
-  }
-  input[type="text"].filled-box {
     background-color: $grey-e0;
   }
 }
@@ -166,9 +176,13 @@ input[type="tel"] {
   &__message {
     min-height: 34px;
     width: calc(100% - 20px);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+  }
+  &__details {
+    margin: 10px auto;
+    .heading {
+      width: 40vw;
+      font-weight: 600;
+    }
   }
 }
 
@@ -226,4 +240,13 @@ input[type="tel"] {
     width: unset;
     padding: 4px;
   }
+}
+
+.left-border {
+  border-radius: 4px 0px 0px 4px;
+  border-right: unset;
+}
+
+.right-border {
+  border-radius: 0px 4px 4px 0px;
 }
