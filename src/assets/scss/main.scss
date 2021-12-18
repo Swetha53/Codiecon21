@@ -174,8 +174,10 @@ label {
     border: 1px solid #9fce62;
   }
   &__message {
-    min-height: 34px;
     width: calc(100% - 20px);
+    text-align: center;
+    vertical-align: middle;
+    line-height: 20px;
   }
   &__details {
     margin: 10px auto;

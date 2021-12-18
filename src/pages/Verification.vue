@@ -2,7 +2,7 @@
   <div class="home">
     <div class="header-container">
       <div class="header">
-        <span class="header-title">{{getOrderId}}</span>
+        <span class="header-title">Order: {{getOrderId}}</span>
       </div>
       <ProgressBar/>
       <div class="header-body">
@@ -35,7 +35,7 @@
         :closeable="false" :type="'success'"
         :message="`You package has been delivered to ${getValidationResult.value.address} address` +
         ` which is approx. ${getValidationResult.value.distance} km` +
-        ` away from the delivery location in the order`"
+        ` away from the delivery location mentioned in the order`"
         :description="{'Mobile Number': getOrderDetails.tempMobile,
         'Address': getValidationResult.value.address}"/>
     </div>
@@ -52,7 +52,7 @@
     <div class="footer" v-else>
       <!-- TODO at click of this button -->
       <!-- TODO autofill otp -->
-      <button class="btn blu-btn large-btn">Please Review Us</button>
+      <button class="btn blu-btn large-btn">Please Review Us!</button>
     </div>
   </div>
 </template>
