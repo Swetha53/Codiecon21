@@ -33,11 +33,13 @@
         v-if="getPage === 'failure' && getValidationResult.errorMessage" :type="'error'"/>
       <Toaster class="toaster__message" v-if="getPage === 'success'"
         :closeable="false" :type="'success'"
-        :message="`You package has been delivered to ${getValidationResult.value.address} address` +
-        ` which is approx. ${getValidationResult.value.distance} km` +
-        ` away from the delivery location mentioned in the order`"
-        :description="{'Mobile Number': getOrderDetails.tempMobile,
-        'Address': getValidationResult.value.address}"/>
+        :message2="[`You package has been `,
+        `delivered to ${getValidationResult.value.address} `,
+        `address which is approx. `,
+        `${getValidationResult.value.distance} km`,
+        ` away from the delivery location mentioned in the order.`]"
+        :message="`Thank you for receiving the goods and it is received by person with` +
+          ` mobile number ${getOrderDetails.tempMobile}`"/>
     </div>
     <div class="footer buttons-footer" v-if="getPage !== 'success'">
       <a :class="{'disabled': (!resendOtpFlag && getPage !== 'failure')}" @click="resendOtpApiCall">
